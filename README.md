@@ -1,5 +1,7 @@
 # Using alexa-voice-service
 
+This is a quick and dirty example of using the alexa-voice-service npm module. Below is a general overview of how to use the module:
+
 ## Step 1: Require and create a new avs instance
 
 ```javascript
