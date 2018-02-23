@@ -10,7 +10,7 @@ const port = 3000;
 const publicPath = path.join(__dirname, 'public/build');
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyparser.json());
+app.use(bodyParser.json());
 app.use(cors());
 
 
