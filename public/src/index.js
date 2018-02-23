@@ -161,6 +161,10 @@ function processDirectives(){
 
 
 // Define DOM Elements
+const loginView = document.getElementById('login-view');
+const appView = document.getElementById('app-view');
+const resultView = document.getElementById('result');
+
 const loginBtn = document.getElementById('login');
 const logoutBtn = document.getElementById('logout');
 const recordBtn = document.getElementById('record');
@@ -219,7 +223,7 @@ function requireLogin(){
 
 function updateResultView(){
 
-}
+};
 
 
 
