@@ -39,7 +39,7 @@ if (!accessToken || !refreshToken){
 	} else {
 		avs.setRefreshToken(refreshToken);
 		avs.setToken(accessToken);
-		setTimeout(updateTokens, Date.now - expiresBy);
+		setTimeout(updateTokens, expiresBy - Date.now());
 	}
 	avs.requestMic();
 }
@@ -52,12 +52,9 @@ function setTokens(){
 		let keyVal = cookie.split('=');
 		if (keyVal[0] == 'refresh_token' || keyVal[0] == 'access_token' || keyVal[0] == 'expires_by'){
 			window.localStorage.setItem(keyVal[0], keyVal[1]);
-		} else {
-			rebuildCookie.push(cookie);
+			document.cookie = keyVal[0] + '=; Max-Age=0;'
 		}
 	}
-	// Remove only access_token and refresh_token from cookie
-	document.cookie = "";
 }
 
 function updateTokens(){

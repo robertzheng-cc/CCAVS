@@ -33,6 +33,7 @@ The app is now ready to send voice to Amazon
 
 ## Step 4 (Optional): Record user commands
 ```javascript
+avs.requestMic();
 avs.startRecording();
 // ...
 // ...
