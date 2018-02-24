@@ -103,6 +103,10 @@ const directiveHandler = {
 			const audio = findAudioFromContentId(contentId);
 			if (audio) {
 				directive.audio = audio;
+				avs.player.enqueue(audio)
+				.then(() => {
+					avs.player.play();
+				});
 			}
 	    }
 	},
@@ -115,6 +119,10 @@ const directiveHandler = {
 	        	const audio = findAudioFromContentId(streamUrl);
 			    if (audio) {
 			    	stream.audio = audio;
+					avs.player.enqueue(audio)
+					.then(() => {
+						avs.player.play();
+					});
 			    }
 		    }
 	  	}
@@ -133,12 +141,13 @@ function findAudioFromContentId(contentId) {
 }
 
 function parseResponse(xhr, responseParts){
+	directives = [];
 	for (let part of responseParts){
-		console.log("what is the part: " + JSON.stringify(part, null, '\t'));
 		let body = part.body;
 		if (part.headers && part.headers['Content-Type'] === 'application/json') {
             try {
               	body = JSON.parse(body);
+              	console.log("what is the body: " + JSON.stringify(body, null, '\t'));
               	directives.push(body);
             } catch(error) {
               	console.error(error);
@@ -164,7 +173,6 @@ function processDirectives(){
 			directiveHandler[nameSpace](directive);
 		}
 	}
-	updateResultView();
 };
 
 
@@ -210,6 +218,7 @@ function endRecording(){
 				parseResponse(xhr, response.multipart);
 			}
 			processDirectives();
+			updateResultView();
 		});
 	});
 };
@@ -222,7 +231,7 @@ function requireLogin(){
 };
 
 function updateResultView(){
-	resultView.innerHTML = JSON.stringify(resultObject, null, `\t`);
+	resultView.innerHTML = JSON.stringify(directives, null, `\t`);
 };
 
 
