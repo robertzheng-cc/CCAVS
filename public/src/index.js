@@ -218,11 +218,12 @@ function endRecording(){
 
 // General Util Functions
 function requireLogin(){
-
+	loginView.style.display = `block`;
+	appView.style.display = `none`;
 };
 
 function updateResultView(){
-
+	resultView.innerHTML = JSON.stringify(resultObject, null, `\t`);
 };
 
 

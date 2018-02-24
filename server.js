@@ -7,7 +7,7 @@ const request = require('request');
 
 const app = express();
 const port = 3000;
-const publicPath = path.join(__dirname, 'public/build');
+const publicPath = path.join(__dirname, 'public');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -60,4 +60,5 @@ app.get('/refresh', (req, res) => {
 	});
 });
 
+console.log("listening on port " + port);
 app.listen(port);
