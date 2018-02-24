@@ -2210,7 +2210,7 @@ const avs = new AVS({
 	clientId: 'amzn1.application-oa2-client.c3b3104f6d1041deb1e2aaa318e6d651',
 	deviceId: 'cctest',
 	deviceSerialNumber: 321,
-	redirectUri: `https://localhost:3000/authresponse`
+	redirectUri: 'https://localhost:3000/authresponse'
 });
 
 // Set cookie into local storage, if they exist
@@ -2248,7 +2248,7 @@ function setTokens(){
 		}
 	}
 	// Remove only access_token and refresh_token from cookie
-	document.ookies = rebuildCookie.join(';');
+	document.cookie = rebuildCookie.join(';');
 }
 
 function updateTokens(){

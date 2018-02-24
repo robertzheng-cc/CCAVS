@@ -28,7 +28,7 @@ if (document.cookie.indexOf('refresh_token=') < 0 || document.cookie.indexOf('ac
 // Check for existing access and refresh tokens. If they do not exist, require login
 let accessToken = window.localStorage.getItem('access_token');
 let refreshToken = window.localStorage.getItem('refresh_token');
-let expiresBy = parseInt(window.localStorage.getItem('expires_by'));
+let expiresBy = parseInt(window.localStorage.getItem('expir\es_by'));
 
 if (!accessToken || !refreshToken){
 	requireLogin();
@@ -55,7 +55,7 @@ function setTokens(){
 		}
 	}
 	// Remove only access_token and refresh_token from cookie
-	document.ookies = rebuildCookie.join(';');
+	document.cookie = rebuildCookie.join(';');
 }
 
 function updateTokens(){
