@@ -1,5 +1,5 @@
 {
-	"clientId": "amzn1.application-oa2-client.c3b3104f6d1041deb1e2aaa318e6d651",
-	"clientSecret": "18c95e7bd61bf372fcbb4fcfea13e12e218f886631a89164d19eaed838029147",
+	"clientId": "woah",
+	"clientSecret": "whoops",
 	"redirectUri": "https://localhost:3000/authresponse"
 }
