@@ -45,7 +45,11 @@ app.get('/authresponse', (req, res) => {
 	};
 
 	request.post(options, (error, response, body) => {
+		if (typeof body == 'string'){
+			body = JSON.parse(body);
+		}
 		if (body && body.hasOwnProperty('access_token') && body.hasOwnProperty('refresh_token')){
+			console.log("code to token response: " + JSON.stringify(body, null, '\t'));
 			let expiresIn = body.expires_in * 1000;
 			let expiresBy = expiresIn - (1000 * 60 * 5) + Date.now();
 			res.cookie('access_token', body.access_token);

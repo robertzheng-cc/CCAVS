@@ -20,31 +20,33 @@ const avs = new AVS({
 	redirectUri: 'https://localhost:3000/authresponse'
 });
 
+console.log("what's the cookie: " + document.cookie);
 // Set cookie into local storage, if they exist
-if (document.cookie.indexOf('refresh_token=') < 0 || document.cookie.indexOf('access_token') < 0 || document.cookie.indexOf('expires_by') < 0){
+if (document.cookie.indexOf('refresh_token=') > -1 || document.cookie.indexOf('access_token') > -1 || document.cookie.indexOf('expires_by') > -1){
 	setTokens();
 }
 
 // Check for existing access and refresh tokens. If they do not exist, require login
 let accessToken = window.localStorage.getItem('access_token');
 let refreshToken = window.localStorage.getItem('refresh_token');
-let expiresBy = parseInt(window.localStorage.getItem('expir\es_by'));
+let expiresBy = parseInt(window.localStorage.getItem('expires_by'));
 
 if (!accessToken || !refreshToken){
 	requireLogin();
 } else {
-	if (Date.now > expires_by){
+	if (Date.now > expiresBy){
 		updateTokens();
 	} else {
 		avs.setRefreshToken(refreshToken);
 		avs.setToken(accessToken);
-		setTimeout(updateTokens, Date.now - expires_by);
+		setTimeout(updateTokens, Date.now - expiresBy);
 	}
+	avs.requestMic();
 }
 
 // Util Functions for Webapp Init
 function setTokens(){
-	let splitCookie = document.cookie.split(';');
+	let splitCookie = document.cookie.split('; ');
 	let rebuildCookie = [];
 	for (let cookie of splitCookie) {
 		let keyVal = cookie.split('=');
@@ -55,7 +57,7 @@ function setTokens(){
 		}
 	}
 	// Remove only access_token and refresh_token from cookie
-	document.cookie = rebuildCookie.join(';');
+	document.cookie = "";
 }
 
 function updateTokens(){
