@@ -17,7 +17,7 @@ const avs = new AVS({
 	clientId: 'whoops',
 	deviceId: 'cctest',
 	deviceSerialNumber: 321,
-	redirectUri: `https://localhost:3000/authresponse`
+	redirectUri: 'https://localhost:3000/authresponse'
 });
 
 // Set cookie into local storage, if they exist
