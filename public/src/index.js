@@ -51,7 +51,7 @@ function setTokens(){
 	for (let cookie of splitCookie) {
 		let keyVal = cookie.split('=');
 		if (keyVal[0] == 'refresh_token' || keyVal[0] == 'access_token' || keyVal[0] == 'expires_by'){
-			window.localStorage.setItem(keyVal[0], keyVal[1]);
+			window.localStorage.setItem(keyVal[0], decodeURI(keyVal[1]));
 			document.cookie = keyVal[0] + '=; Max-Age=0;'
 		}
 	}
@@ -132,13 +132,14 @@ function findAudioFromContentId(contentId) {
   	}
 }
 
-function parseResponse(responseParts){
+function parseResponse(xhr, responseParts){
 	for (let part of responseParts){
+		console.log("what is the part: " + JSON.stringify(part, null, '\t'));
 		let body = part.body;
-		if (multipart.headers && multipart.headers['Content-Type'] === 'application/json') {
+		if (part.headers && part.headers['Content-Type'] === 'application/json') {
             try {
               	body = JSON.parse(body);
-              	resultObject = body;
+              	directives.push(body);
             } catch(error) {
               	console.error(error);
             }
@@ -146,12 +147,12 @@ function parseResponse(responseParts){
             if (body && body.messageBody && body.messageBody.directives) {
               	directives = body.messageBody.directives;
             }
-      	} else if (multipart.headers['Content-Type'] === 'audio/mpeg') {
-            const start = multipart.meta.body.byteOffset.start;
-            const end = multipart.meta.body.byteOffset.end;
+      	} else if (part.headers['Content-Type'] === 'audio/mpeg') {
+            const start = part.meta.body.byteOffset.start;
+            const end = part.meta.body.byteOffset.end;
             var slicedBody = xhr.response.slice(start, end);
 
-            audioMap[multipart.headers['Content-ID']] = slicedBody;
+            audioMap[part.headers['Content-ID']] = slicedBody;
           }
 	}
 };
@@ -160,7 +161,7 @@ function processDirectives(){
 	for (directive of directives){
 		let nameSpace = directive.namespace;
 		if (directiveHandler.hasOwnProperty(nameSpace)){
-			directiveHandler[nameSpace]();
+			directiveHandler[nameSpace](directive);
 		}
 	}
 	updateResultView();
@@ -206,7 +207,7 @@ function endRecording(){
 		avs.sendAudio(dataView)
 		.then(({xhr, response}) => {
 			if (response.multipart.length){
-				parseResponse(response.multipart);
+				parseResponse(xhr, response.multipart);
 			}
 			processDirectives();
 		});
