@@ -14,7 +14,7 @@ const AVS = require('alexa-voice-service');
 // Set up AVS library
 const avs = new AVS({
 	debug: true,
-	clientId: 'amzn1.application-oa2-client.c3b3104f6d1041deb1e2aaa318e6d651',
+	clientId: 'whoops',
 	deviceId: 'cctest',
 	deviceSerialNumber: 321,
 	redirectUri: `https://localhost:3000/authresponse`
