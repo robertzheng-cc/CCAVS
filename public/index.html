@@ -4,22 +4,35 @@
 	<meta charset="UTF-8">
 	<title>AVS Test</title>
 	<style type="text/css">
-		#login-view {display: none};
+		#login-view {display: none;}
+		
+		#app-view {
+			display: flex;
+			flex-direction: row;
+		}
+
+		#left {
+			flex-grow: 1;
+		}
+
+		#right {
+			flex-grow: 3;
+		}
 	</style>
 </head>
 <body>
-	<div id="login-view">
+	<div id="login-view" class="view">
 		<button id="login">login</button>
 	</div>
-	<div id="app-view">
+	<div id="app-view" class="view">
 		<div id="left">
 			<button id="logout">logout</button>
-			<button id="record"></button>
+			<button id="record">record</button>
 		</div>
 		<div id="right">
 			<div id="result"></div>
 		</div>
 	</div>
-	<script src="./bundled.js"></script>
+	<script src="./build/index.js"></script>
 </body>
 </html>

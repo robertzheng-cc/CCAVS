@@ -1,4 +1,12 @@
 /*============================== START WEBAPP INIT ===============================*/
+// Define DOM Elements
+const loginView = document.getElementById('login-view');
+const appView = document.getElementById('app-view');
+const resultView = document.getElementById('result');
+
+const loginBtn = document.getElementById('login');
+const logoutBtn = document.getElementById('logout');
+const recordBtn = document.getElementById('record');
 
 // Require Modules and Libraries
 const AVS = require('alexa-voice-service');
@@ -6,14 +14,14 @@ const AVS = require('alexa-voice-service');
 // Set up AVS library
 const avs = new AVS({
 	debug: true,
-	clientId: 'clientId',
-	deviceId: 'deviceId',
+	clientId: 'amzn1.application-oa2-client.c3b3104f6d1041deb1e2aaa318e6d651',
+	deviceId: 'cctest',
 	deviceSerialNumber: 321,
 	redirectUri: `https://localhost:3000/authresponse`
 });
 
-// Set cookies into local storage, if they exist
-if (cookies.indexOf('refresh_token=') < 0 || cookies.indexOf('access_token') < 0 || cookies.indexOf('expires_by') < 0){
+// Set cookie into local storage, if they exist
+if (document.cookie.indexOf('refresh_token=') < 0 || document.cookie.indexOf('access_token') < 0 || document.cookie.indexOf('expires_by') < 0){
 	setTokens();
 }
 
@@ -36,9 +44,9 @@ if (!accessToken || !refreshToken){
 
 // Util Functions for Webapp Init
 function setTokens(){
-	let splitCookie = window.cookies.split(';');
+	let splitCookie = document.cookie.split(';');
 	let rebuildCookie = [];
-	for (let cookie of splitCookies) {
+	for (let cookie of splitCookie) {
 		let keyVal = cookie.split('=');
 		if (keyVal[0] == 'refresh_token' || keyVal[0] == 'access_token' || keyVal[0] == 'expires_by'){
 			window.localStorage.setItem(keyVal[0], keyVal[1]);
@@ -46,8 +54,8 @@ function setTokens(){
 			rebuildCookie.push(cookie);
 		}
 	}
-	// Remove only access_token and refresh_token from cookies
-	window.cookies = rebuildCookie.join(';');
+	// Remove only access_token and refresh_token from cookie
+	document.ookies = rebuildCookie.join(';');
 }
 
 function updateTokens(){
@@ -159,15 +167,6 @@ function processDirectives(){
 	updateResultView();
 };
 
-
-// Define DOM Elements
-const loginView = document.getElementById('login-view');
-const appView = document.getElementById('app-view');
-const resultView = document.getElementById('result');
-
-const loginBtn = document.getElementById('login');
-const logoutBtn = document.getElementById('logout');
-const recordBtn = document.getElementById('record');
 
 // Login Function
 loginBtn.addEventListener('click', login);

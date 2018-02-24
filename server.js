@@ -4,6 +4,7 @@ const fs = require('fs');
 const options = {
   key: fs.readFileSync('./server.key'),
   cert: fs.readFileSync('./server.crt'),
+  passphrase: 'cloudcar',
   rejectUnauthorized: false
 };
 
@@ -30,6 +31,7 @@ app.use(cors());
 app.use('/', express.static(publicPath));
 
 app.get('/authresponse', (req, res) => {
+	console.log("received authresponse: " + JSON.stringify(req.query, null, "\t"));
 	const code = req.query.code;
 	const grantType = 'authorization_code';
 	const postData = `grant_type=${grantType}&code=${code}&client_id=${settings.clientId}&client_secret=${settings.clientSecret}&redirect_uri=${settings.redirectUri}`;
@@ -56,6 +58,7 @@ app.get('/authresponse', (req, res) => {
 });
 
 app.get('/refresh', (req, res) => {
+	console.log("received refresh call: " + JSON.stringify(req.query, null, "\t"));
 	const refresh = req.query.token;
 	const grantType = 'refresh_token';
 	const postData = `grant_type=${grantType}&refresh_token=${refresh}&client_id=${settings.clientId}&client_secret=${settings.clientSecret}&redirect_uri=${settings.redirectUri}`;
