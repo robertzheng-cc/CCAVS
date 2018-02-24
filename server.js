@@ -1,3 +1,12 @@
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('./server.key'),
+  cert: fs.readFileSync('./server.crt'),
+  rejectUnauthorized: false
+};
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -8,6 +17,10 @@ const request = require('request');
 const app = express();
 const port = 3000;
 const publicPath = path.join(__dirname, 'public');
+
+const server = https.createServer(options, app).listen(port, () => {
+	console.log("listening on port " + port);
+});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -60,5 +73,3 @@ app.get('/refresh', (req, res) => {
 	});
 });
 
-console.log("listening on port " + port);
-app.listen(port);
